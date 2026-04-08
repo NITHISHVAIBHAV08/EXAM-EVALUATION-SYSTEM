@@ -1,5 +1,13 @@
- pipeline {
+pipeline {
     agent any
+
+    tools {
+        maven 'Maven'
+    }
+
+    environment {
+        DOCKER_IMAGE = "exam-app"
+    }
 
     stages {
 
@@ -19,7 +27,13 @@
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t exam-app .'
+                bat 'docker build -t %DOCKER_IMAGE% .'
+            }
+        }
+
+        stage('Docker Run (Optional Test)') {
+            steps {
+                bat 'docker run -d -p 8081:8080 %DOCKER_IMAGE%'
             }
         }
 
@@ -29,5 +43,14 @@
             }
         }
 
+    }
+
+    post {
+        success {
+            echo '✅ Pipeline executed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed. Check logs.'
+        }
     }
 }
