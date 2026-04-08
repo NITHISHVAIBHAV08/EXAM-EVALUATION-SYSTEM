@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                git 'https://github.com/NITHISHVAIBHAV08/EXAM-EVALUATION-SYSTEM'
+               git branch: 'main', url: 'https://github.com/NITHISHVAIBHAV08/EXAM-EVALUATION-SYSTEM'
             }
         }
 
