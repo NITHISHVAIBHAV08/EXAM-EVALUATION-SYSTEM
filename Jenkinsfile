@@ -4,8 +4,7 @@ pipeline {
   stage('Clone') {
     steps {
         git branch: 'main',
-            url: 'https://github.com/NITHISHVAIBHAV08/EXAM-EVALUATION-SYSTEM',
-            credentialsId: 'github-creds'
+            url: 'https://github.com/NITHISHVAIBHAV08/EXAM-EVALUATION-SYSTEM'
     }
 }
 
