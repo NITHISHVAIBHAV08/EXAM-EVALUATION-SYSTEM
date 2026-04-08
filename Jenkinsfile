@@ -1,12 +1,13 @@
 pipeline {
     agent any
 
-    stages {
-        stage('Clone') {
-            steps {
-               git branch: 'main', url: 'https://github.com/NITHISHVAIBHAV08/EXAM-EVALUATION-SYSTEM'
-            }
-        }
+  stage('Clone') {
+    steps {
+        git branch: 'main',
+            url: 'https://github.com/NITHISHVAIBHAV08/EXAM-EVALUATION-SYSTEM',
+            credentialsId: 'github-creds'
+    }
+}
 
         stage('Build') {
             steps {
