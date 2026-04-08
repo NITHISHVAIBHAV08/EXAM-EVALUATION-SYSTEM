@@ -31,26 +31,38 @@ pipeline {
             }
         }
 
-        stage('Docker Run (Optional Test)') {
+        stage('Docker Cleanup (Optional)') {
             steps {
-                bat 'docker run -d -p 8081:8080 %DOCKER_IMAGE%'
+                bat 'docker rm -f exam-container || exit 0'
             }
         }
 
-       stage('Deploy to Kubernetes') {
-           steps {
-               bat 'kubectl apply -f deployment.yaml --validate=false'
-           }
-       }
+        stage('Docker Run (Optional Test)') {
+            steps {
+                bat 'docker run -d -p 8081:8080 --name exam-container %DOCKER_IMAGE%'
+            }
+        }
+
+        stage('Check Kubernetes Connection') {
+            steps {
+                bat 'kubectl get nodes'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                bat 'kubectl apply -f deployment.yaml'
+            }
+        }
 
     }
 
     post {
         success {
-            echo '✅ Pipeline executed successfully!'
+            echo '✅ FULL PIPELINE SUCCESS 🎉'
         }
         failure {
-            echo '❌ Pipeline failed. Check logs.'
+            echo '❌ PIPELINE FAILED - CHECK ABOVE LOGS'
         }
     }
 }
